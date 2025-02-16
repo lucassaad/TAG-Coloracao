@@ -8,6 +8,7 @@ class Vertex:
 def main():
     # TIMES
     teams = ['DFC', 'TFC', 'AFC', 'LFC', 'FFC', 'OFC', 'CFC']
+    
 
     # JOGOS
     games = []
@@ -25,12 +26,24 @@ def main():
         for game2 in games:
             if (game1.teams[0] in game2.teams or game1.teams[1] in game2.teams) and game1 != game2:
                 Graph[game1].append(game2)
-    return
+    
     # COLORAÇÃO - Greedy algorithm
-    while games_aux:
-        game = games_aux.pop()
+    
+    all_colors=[0]
+    game = games.pop()
+    game.color = 0
+    while games:
+        game = games.pop()
         if game.color == None:
             colors = []
             for incompatible in Graph[game]:
                 if (incompatible.color != None) and (incompatible.color not in colors):
-                    colors.append(incompatible.color)
+                    colors.append(incompatible.color)                  
+                    if incompatible.color not in all_colors:
+                        all_colors.append(incompatible.color)
+            for i in range(len(all_colors) + 2):
+                if i not in colors:
+                    game.color = i
+                    break                       
+
+main()
